@@ -1,0 +1,128 @@
+syntax = "proto3";
+
+option csharp_namespace = "Northwind.API";
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+package order_service;
+
+service NorthwindService {
+  rpc GetOrders (google.protobuf.Empty) returns (OrderList);
+  rpc GetOrderDetailed (GetOrderRequest) returns (OrderDetailed);
+  rpc AddOrder (AddOrderRequest) returns (OrderIdResponse);
+  rpc DeleteOrder (DeleteOrderRequest) returns (google.protobuf.Empty);
+  rpc EditOrder (EditOrderRequest) returns (google.protobuf.Empty);
+}
+
+message GetOrderRequest {
+  int32 orderId = 1;
+}
+
+message AddOrderRequest {
+  OrderCreate order = 1;
+  repeated OrderDetailToCreateOrder order_details = 2;
+}
+
+message OrderCreate{
+  string CustomerID = 1;
+  google.protobuf.Int32Value EmployeeID = 2;
+  google.protobuf.Timestamp OrderDate = 3;
+  google.protobuf.Timestamp RequiredDate = 4;
+  google.protobuf.Timestamp ShippedDate = 5;
+  google.protobuf.Int32Value ShipVia = 6;
+  google.protobuf.DoubleValue Freight = 7;
+  google.protobuf.StringValue ShipName = 8;
+  google.protobuf.StringValue ShipAddress = 9;
+  google.protobuf.StringValue ShipCity = 10;
+  google.protobuf.StringValue ShipRegion = 11;
+  google.protobuf.StringValue ShipPostalCode = 12;
+  google.protobuf.StringValue ShipCountry = 13;
+}
+
+message OrderDetailToCreateOrder {
+  int32 ProductID = 1;
+  double UnitPrice = 2;
+  double Quantity = 3;
+  double Discount = 4;
+}
+
+message DeleteOrderRequest {
+  int32 orderId = 1;
+}
+
+message EditOrderRequest {
+  gOrder order = 1;
+}
+
+message gOrder {
+  int32 orderId = 1;
+  string CustomerID = 2;
+  google.protobuf.Int32Value EmployeeID = 3;
+  google.protobuf.Timestamp OrderDate = 4;
+  google.protobuf.Timestamp RequiredDate = 5;
+  google.protobuf.Timestamp ShippedDate = 6;
+  google.protobuf.Int32Value ShipVia = 7;
+  google.protobuf.DoubleValue Freight = 8;
+  google.protobuf.StringValue ShipName = 9;
+  google.protobuf.StringValue ShipAddress = 10;
+  google.protobuf.StringValue ShipCity = 11;
+  google.protobuf.StringValue ShipRegion = 12;
+  google.protobuf.StringValue ShipPostalCode = 13;
+  google.protobuf.StringValue ShipCountry = 14;
+  repeated OrderDetailToCreateOrder orderDetails = 15;
+}
+
+message OrderList{
+	repeated OrderWithStatus orders = 1;
+}
+
+message OrderWithStatus {
+  int32 orderId = 1;
+  string CustomerID = 2;
+  google.protobuf.Int32Value EmployeeID = 3;
+  google.protobuf.Timestamp OrderDate = 4;
+  google.protobuf.Timestamp RequiredDate = 5;
+  google.protobuf.Timestamp ShippedDate = 6;
+  google.protobuf.Int32Value ShipVia = 7;
+  google.protobuf.DoubleValue Freight = 8;
+  google.protobuf.StringValue ShipName = 9;
+  google.protobuf.StringValue ShipAddress = 10;
+  google.protobuf.StringValue ShipCity = 11;
+  google.protobuf.StringValue ShipRegion = 12;
+  google.protobuf.StringValue ShipPostalCode = 13;
+  google.protobuf.StringValue ShipCountry = 14;
+  string OrderStatus = 15;
+}
+
+message OrderDetailed {
+  int32 orderId = 1;
+  string CustomerID = 2;
+  google.protobuf.Int32Value EmployeeID = 3;
+  google.protobuf.Timestamp OrderDate = 4;
+  google.protobuf.Timestamp RequiredDate = 5;
+  google.protobuf.Timestamp ShippedDate = 6;
+  google.protobuf.Int32Value ShipVia = 7;
+  google.protobuf.DoubleValue Freight = 8;
+  google.protobuf.StringValue ShipName = 9;
+  google.protobuf.StringValue ShipAddress = 10;
+  google.protobuf.StringValue ShipCity = 11;
+  google.protobuf.StringValue ShipRegion = 12;
+  google.protobuf.StringValue ShipPostalCode = 13;
+  google.protobuf.StringValue ShipCountry = 14;
+  repeated OrderDetailWithProductInfo orderDetails = 15;
+  string OrderStatus = 16;
+}
+
+message OrderDetailWithProductInfo{
+  int32 ProductID = 1;
+  google.protobuf.StringValue productName = 2;
+  google.protobuf.DoubleValue UnitPrice = 3;
+  google.protobuf.DoubleValue Quantity = 4;
+  google.protobuf.DoubleValue Discount = 5;
+}
+
+message OrderIdResponse {
+  int32 orderId = 1;
+}
